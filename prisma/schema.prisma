@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model accomodations {
+  accomodationId Int     @id @default(autoincrement())
+  name           String  @db.VarChar(128)
+  address        String  @db.VarChar(512)
+  rooms          rooms[]
+}
+
+model administrators {
+  administratorId Int   @id @default(autoincrement())
+  userId          Int
+  users           users @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "fkUserId")
+}
+
+model employees {
+  employeeId  Int           @id @default(autoincrement())
+  workPhone   String?       @db.VarChar(32)
+  userId      Int
+  users       users         @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "employees_users_null_fk")
+  jobAsignees jobAsignees[]
+}
+
+model feedback {
+  feedbackId    Int    @id @default(autoincrement())
+  userId        Int
+  roomId        Int?
+  feedbackTopic String @db.VarChar(128)
+  feedbackDesc  String @db.VarChar(2048)
+  rooms         rooms? @relation(fields: [roomId], references: [roomId], onDelete: NoAction, onUpdate: NoAction, map: "fkRoomId")
+  users         users  @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "fkUserId")
+}
+
+model jobAsignees {
+  jobId      Int
+  employeeId Int
+  employees  employees @relation(fields: [employeeId], references: [employeeId], onDelete: NoAction, onUpdate: NoAction, map: "fkEmployeeId")
+  jobs       jobs      @relation(fields: [jobId], references: [jobId], onDelete: NoAction, onUpdate: NoAction, map: "fkJobId")
+
+  @@id([jobId, employeeId])
+}
+
+model jobs {
+  jobId          Int           @id @default(autoincrement())
+  jobName        String        @db.VarChar(128)
+  jobDescription String        @db.VarChar(2048)
+  dateCreated    DateTime      @db.Timestamptz(6)
+  dateDue        DateTime      @db.Timestamptz(6)
+  roomId         Int
+  jobAsignees    jobAsignees[]
+  rooms          rooms         @relation(fields: [roomId], references: [roomId], onDelete: NoAction, onUpdate: NoAction, map: "fkJobRoom")
+}
+
+model rooms {
+  roomId         Int           @id(map: "Room_pkey") @default(autoincrement())
+  accomodationId Int
+  roomNumber     Int
+  roomFloor      Int
+  roomLabel      String        @db.VarChar(64)
+  feedback       feedback[]
+  jobs           jobs[]
+  accomodations  accomodations @relation(fields: [accomodationId], references: [accomodationId], onDelete: NoAction, onUpdate: NoAction, map: "fkAccomodationId")
+  students       students[]
+}
+
+model students {
+  studentId Int    @id @default(autoincrement())
+  faculty   String @db.VarChar
+  roomId    Int
+  userId    Int
+  jmbag     String @db.VarChar(12)
+  rooms     rooms  @relation(fields: [roomId], references: [roomId], onDelete: NoAction, onUpdate: NoAction, map: "fkRoomId")
+  users     users  @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "fkUserId")
+}
+
+model userTypes {
+  userTypeId    Int     @id @default(autoincrement())
+  userTypeLabel String  @db.VarChar(128)
+  users         users[]
+}
+
+model users {
+  userId         Int              @id @default(autoincrement())
+  email          String           @db.VarChar(128)
+  password       String           @db.VarChar(512)
+  userTypeId     Int
+  administrators administrators[]
+  employees      employees[]
+  feedback       feedback[]
+  students       students[]
+  userTypes      userTypes        @relation(fields: [userTypeId], references: [userTypeId], onDelete: NoAction, onUpdate: NoAction, map: "FKuserTypeId")
+}

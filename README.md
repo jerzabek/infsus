@@ -11,7 +11,7 @@ $ docker compose build
 $ docker compose up
 ```
 
-Application is built using NEXT.js which handles data access during server side rendering.
+Application is built using NEXT.js 13.
 Running the application:
 
 ```bash
