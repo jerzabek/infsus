@@ -25,29 +25,61 @@ export default function SearchForm({
     })
   }
 
+  const handleReset = () => {
+    setAccomodationId('')
+    setFloor('')
+    setRoom('')
+  }
+
   return (
-    <form onSubmit={_handleSubmit}>
-      <label htmlFor="accomodations">Accomodations</label>
-      <select id="accomodations" value={accomodationId} onChange={e => setAccomodationId(e.target.value)}>
-        <option value="all">All</option>
-        {accomodations.map(accomodation => (
-          <option key={accomodation.accomodationId} value={accomodation.accomodationId}>
-            {accomodation.name}
-          </option>
-        ))}
-      </select>
+    <form onSubmit={_handleSubmit} className="row g-3">
+      <div className="col-md-6">
+        <label htmlFor="accomodations" className="form-label">
+          Accomodations
+        </label>
+        <select
+          id="accomodations"
+          value={accomodationId}
+          onChange={e => setAccomodationId(e.target.value)}
+          className="form-select"
+        >
+          <option value="all">All</option>
+          {accomodations.map(accomodation => (
+            <option key={accomodation.accomodationId} value={accomodation.accomodationId}>
+              {accomodation.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      <br />
+      <div className="col-md-3">
+        <label htmlFor="floor" className="form-label">
+          Floor:
+        </label>
+        <input
+          type="number"
+          id="floor"
+          value={floor}
+          onChange={e => setFloor(e.target.value)}
+          className="form-control"
+        />
+      </div>
 
-      <label htmlFor="floor">Floor:</label>
-      <input type="number" id="floor" value={floor} onChange={e => setFloor(e.target.value)} />
+      <div className="col-md-3">
+        <label htmlFor="room" className="form-label">
+          Room:
+        </label>
+        <input type="number" id="room" value={room} onChange={e => setRoom(e.target.value)} className="form-control" />
+      </div>
 
-      <br />
-
-      <label htmlFor="room">Room:</label>
-      <input type="number" id="room" value={room} onChange={e => setRoom(e.target.value)} />
-
-      <input type="submit" value="Search" />
+      <div className="col-12">
+        <button type="submit" className="btn btn-primary me-2">
+          Search
+        </button>
+        <button type="button" className="btn btn-secondary" onClick={handleReset}>
+          Reset
+        </button>
+      </div>
     </form>
   )
 }

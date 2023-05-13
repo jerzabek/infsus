@@ -6,36 +6,39 @@ import { useState } from 'react'
 import { StudentSearchForm } from './interface'
 import { getStudentSearch } from './api/repository'
 import { StudentSearchResult } from '../api/interface'
+import StudentList from './components/StudentList/StudentList'
+import Head from 'next/head'
 
 export default function StudentSearch({ accomodations }: { accomodations: accomodations[] }) {
   const [students, setStudents] = useState<StudentSearchResult[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleFormSubmit = ({ accomodationId, floor, room }: StudentSearchForm) => {
-    console.log(accomodationId, floor, room)
+    setLoading(true)
 
     getStudentSearch({ accomodationId, floor, room }).then(({ data }) => {
-      console.log(data)
       setStudents(data)
+      setLoading(false)
     })
   }
 
   return (
-    <main>
-      <h1>Search students</h1>
+    <main className="container py-2">
+      <h1 className="text-center">Search students</h1>
 
       <hr />
 
       <SearchForm accomodations={accomodations} handleSubmit={handleFormSubmit} />
 
-      {students.length > 0 &&
-        students.map(student => (
-          <div key={student.studentId}>
-            <h2>{student.users.email}</h2>
-            <p>{student.jmbag}</p>
-            <p>{student.faculty}</p>
-            <p>{student.rooms.roomLabel}</p>
-          </div>
-        ))}
+      <div className="mt-4">
+        {loading ? (
+          <p className="text-center text-secondary">Loading...</p>
+        ) : students.length === 0 ? (
+          <p className="text-center text-secondary">No students available.</p>
+        ) : (
+          <StudentList students={students} />
+        )}
+      </div>
     </main>
   )
 }

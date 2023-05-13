@@ -21,8 +21,6 @@ export async function GET(request: Request) {
       }
     : {}
 
-  console.log(whereClause)
-
   const students = await prisma.students.findMany({
     where: whereClause,
     select: {
@@ -36,6 +34,7 @@ export async function GET(request: Request) {
       rooms: {
         select: {
           roomLabel: true,
+          roomId: true,
         },
       },
       userId: true,
