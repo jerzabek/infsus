@@ -1,7 +1,5 @@
-import StudentSearch from '@/modules/StudentSearch'
-import prisma from '../../lib/prisma'
+import CRUDStudents from '@/modules/crudStudents'
 
 export default async function page() {
-
-  return <StudentSearch accomodations={accomodations} />
+  return <CRUDStudents/>
 }

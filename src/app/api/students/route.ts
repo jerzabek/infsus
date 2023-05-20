@@ -35,6 +35,12 @@ export async function GET(request: Request) {
         select: {
           roomLabel: true,
           roomId: true,
+          accomodations: {
+            select: {
+              name: true,
+              address: true,
+            }
+          }
         },
       },
       userId: true,
