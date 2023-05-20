@@ -1,11 +1,19 @@
 'use client'
-import { useState } from 'react'
-import { getAllStudents } from './api/repository'
+import { useEffect, useState } from 'react'
+import { students } from '@prisma/client'
 
 export default async function CRUDStudents() {
-  const [studentId, setStudentId] = useState<number>(-1)
-
-  const studentList = (await getAllStudents()).data
+  const [studentList, setStudentsList] = useState<students[]>(null)
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await (fetch(`http://localhost:3000/api/students`).then(res => res.json()))
+      console.log('respons', response)
+      const data = await response.data
+      console.log(data)
+      setStudentsList(data)
+    }
+    if (!studentList) fetchData()
+  })
 
   return (
 
@@ -20,16 +28,15 @@ export default async function CRUDStudents() {
             <th>JMBAG</th>
             <th>email</th>
             <th>Accomodation</th>
-            <th></th>
           </tr>
           </thead>
           <tbody>
-          {studentList.length > 0 &&
+          {studentList && studentList.length > 0 &&
             studentList.map(student => (
               <tr key={student.studentId}>
                 <td width='220px'>{student.jmbag}</td>
                 <td width='400px'>{student.users.email}</td>
-                <td width='400px'>{student.rooms.accomodations.name}</td>
+                <td width='400px'>{student.rooms.accomodations ? student.rooms.accomodations.name : 'loading'}</td>
               </tr>
             ))}
           </tbody>
