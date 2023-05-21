@@ -24,14 +24,11 @@ export async function GET(request: Request) {
     where: whereClause,
   })
 
-  console.log('returning', theRoom)
-
   return NextResponse.json({ data: theRoom })
 }
 
 export async function POST(request: Request) {
   const res = await request.json()
-  console.log(res)
   let { roomFloor, roomNumber, accomodationId } = res
   let roomLabel = roomFloor + "-" + roomNumber
   const newRoom = await prisma.rooms.create({
