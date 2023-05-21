@@ -402,7 +402,7 @@ INSERT INTO public.rooms ("roomId", "accomodationId", "roomNumber", "roomFloor",
 
 INSERT INTO public.students ("studentId", faculty, "roomId", "userId", jmbag) OVERRIDING SYSTEM VALUE VALUES (1, 'Sveučilište u Zagrebu, Fakultet elektrotehnike i računarstva', 12, 7, '0098357004');
 INSERT INTO public.students ("studentId", faculty, "roomId", "userId", jmbag) OVERRIDING SYSTEM VALUE VALUES (2, 'Sveučilište u Splitu, Fakultet građevinarstva, arhitekture i geodezije', 5, 1, '0047392018');
-INSERT INTO public.students ("studentId", faculty, "roomId", "userId", jmbag) OVERRIDING SYSTEM VALUE VALUES (3, 'Sveučilište u Rijeci, Pravni fakultet', 22, 10, '0085619537');
+INSERT INTO public.students ("studentId", faculty, "roomId", "userId", jmbag) OVERRIDING SYSTEM VALUE VALUES (3, 'Sveučilište u Rijeci, Pravni fakultet', 22, 10, '0066619537');
 INSERT INTO public.students ("studentId", faculty, "roomId", "userId", jmbag) OVERRIDING SYSTEM VALUE VALUES (4, 'Sveučilište u Osijeku, Ekonomski fakultet', 18, 4, '0078452190');
 
 
