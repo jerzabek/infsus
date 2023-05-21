@@ -7,7 +7,6 @@ import { StudentSearchForm } from './interface'
 import { getStudentSearch } from './api/repository'
 import { StudentSearchResult } from '../api/interface'
 import StudentList from './components/StudentList/StudentList'
-import Head from 'next/head'
 
 export default function StudentSearch({ accomodations }: { accomodations: accomodations[] }) {
   const [students, setStudents] = useState<StudentSearchResult[]>([])

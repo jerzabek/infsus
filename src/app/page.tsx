@@ -8,6 +8,9 @@ export default async function Home() {
         <li>
           <Link href="/studentSearch">Find students</Link>
         </li>
+        <li>
+          <Link href="/crudStudents">CRUD students</Link>
+        </li>
       </ul>
     </main>
   )
