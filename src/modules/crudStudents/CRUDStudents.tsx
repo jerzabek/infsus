@@ -13,7 +13,7 @@ export default async function CRUDStudents() {
       setStudentsList(data)
     }
     if (!studentList) fetchData()
-  })
+  }, [])
 
   return (
 
@@ -25,22 +25,44 @@ export default async function CRUDStudents() {
         <table className='table'>
           <thead>
           <tr>
+            <th>id</th>
             <th>JMBAG</th>
             <th>email</th>
             <th>Accomodation</th>
+            <th> </th>
+            <th> </th>
           </tr>
           </thead>
           <tbody>
-          {studentList && studentList.length > 0 &&
+          {studentList &&
             studentList.map(student => (
               <tr key={student.studentId}>
+                <td width='50px'>{student.studentId}</td>
                 <td width='220px'>{student.jmbag}</td>
                 <td width='400px'>{student.users.email}</td>
                 <td width='400px'>{student.rooms.accomodations ? student.rooms.accomodations.name : 'loading'}</td>
+                <td><a href={'/editStudent?studentId=' + student.studentId}>Edit Student</a></td>
+                <td>
+                  <button onClick={e => {
+                    const options = {
+                      method: 'DELETE',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        userId: student.users.userId,
+                        studentId: student.studentId,
+                      }),
+                    }
+                    fetch('http://localhost:3000/api/students', options)
+                    console.log('deleted')
+                  }}>delete
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        <a href={'/editStudent'}>Add a new student</a>
       </div>
     </main>
   )
