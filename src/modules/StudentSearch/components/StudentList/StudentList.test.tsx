@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { mockGetStudentSearchResponse } from '../../mock'
+import { mockGetStudentSearchResponse, mockGetStudentSearchWithInvalidJmbagResponse } from '../../mock'
 import StudentList from './StudentList'
 import { getUserFeedback } from '../../api/repository'
 import { mockStudentFeedbackResponse } from './mock'
@@ -44,5 +44,29 @@ describe('<StudentList />', () => {
     await waitFor(() => screen.getByText(feedbackTopic))
     screen.getByText(feedbackDesc)
     screen.getByText(`room: ${roomLabel}`)
+    expect(screen.queryByText(/breaks business condition/i)).not.toBeInTheDocument()
+  })
+
+  it('should display user feedback when details are clicked', async () => {
+    //@ts-ignore
+    getUserFeedback.mockImplementation(() => Promise.resolve(mockStudentFeedbackResponse))
+
+    render(<StudentList students={mockGetStudentSearchWithInvalidJmbagResponse.data} />)
+
+    userEvent.click(screen.getByText(/details/i))
+
+    await screen.findByText(/student details/i)
+
+    const {
+      feedbackDesc,
+      feedbackTopic,
+      rooms: { roomLabel },
+    } = mockStudentFeedbackResponse.data[0]
+
+    await waitFor(() => screen.getByText(feedbackTopic))
+    screen.getByText(feedbackDesc)
+    screen.getByText(`room: ${roomLabel}`)
+
+    screen.getByText(/breaks business condition/i)
   })
 })

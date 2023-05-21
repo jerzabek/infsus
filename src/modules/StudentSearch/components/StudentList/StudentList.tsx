@@ -2,6 +2,7 @@ import { StudentSearchResult } from '@/modules/api/interface'
 import { useEffect, useState } from 'react'
 import { getUserFeedback } from '../../api/repository'
 import { UserFeedback } from '../../interface'
+import { useValidateFaculty } from '@/modules/utils/hooks'
 
 const StudentList = ({ students }: { students: StudentSearchResult[] }) => {
   const [activeStudent, setActiveStudent] = useState<StudentSearchResult | undefined>(undefined)
@@ -14,6 +15,8 @@ const StudentList = ({ students }: { students: StudentSearchResult[] }) => {
       userId: activeStudent.userId.toString(),
     }).then(({ data }) => setFeedback(data))
   }, [activeStudent])
+
+  const isValid = useValidateFaculty(activeStudent?.faculty || '', activeStudent?.jmbag || '')
 
   return (
     <div className="table-responsive">
@@ -51,6 +54,11 @@ const StudentList = ({ students }: { students: StudentSearchResult[] }) => {
                 <button type="button" className="btn-close" onClick={() => setActiveStudent(undefined)} />
               </div>
               <div className="modal-body">
+                {isValid === false && (
+                  <p className="text-danger">
+                    Student breaks business condition to not have transfered from one of our partnered faculties.
+                  </p>
+                )}
                 <p className="text-secondary" style={{ fontSize: '0.8em' }}>
                   <b>User ID:</b> {activeStudent.userId} <b>Student ID:</b> {activeStudent.studentId}
                 </p>

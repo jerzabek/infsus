@@ -15,16 +15,16 @@ Application is built using NEXT.js 13.
 Running the application:
 
 ```bash
-# Firstly install dependencies
 $ yarn
-# Then run the app
 $ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Tasks
+## Tests
 
-### Master detail screen
+Tests written using Jest and React testing library.
 
-In folder `src/app/studentSearch` you can find the master detail screen.
+```bash
+$ yarn test
+```

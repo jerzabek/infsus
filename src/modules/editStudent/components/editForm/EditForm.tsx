@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useValidateFaculty } from '@/modules/utils/hooks'
 
 export default function EditForm({ student, allStudents, accomodations }) {
   const router = useRouter()
@@ -9,6 +10,9 @@ export default function EditForm({ student, allStudents, accomodations }) {
   const [floor, setFloor] = useState<string>('')
   const [room, setRoom] = useState<string>('')
   const [faculty, setFaculty] = useState<string>('')
+
+  const isValid = useValidateFaculty(student.faculty, student.jmbag)
+
   useEffect(() => {
     if (student) {
       setJmbag(student.jmbag)
@@ -18,7 +22,7 @@ export default function EditForm({ student, allStudents, accomodations }) {
       setRoom(student.rooms.roomNumber)
       setFaculty(student.faculty)
     }
-  }, [])
+  }, [student])
   const _handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -122,6 +126,13 @@ export default function EditForm({ student, allStudents, accomodations }) {
 
   return (
     <form onSubmit={_handleSubmit} className="row g-3">
+      {isValid === false && (
+        <div className={'col-md-12'}>
+          <h4 className="text-danger">
+            Student breaks business condition to not have transfered from one of our partnered faculties.
+          </h4>
+        </div>
+      )}
       <div className="col-md-6">
         <label htmlFor={'jmbag'}>JMBAG</label>
         <br />
