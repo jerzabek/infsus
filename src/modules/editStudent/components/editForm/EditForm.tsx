@@ -32,6 +32,11 @@ export default function EditForm({ student, allStudents, accomodations }) {
     let studentsNotThisStudent = allStudents.filter(student => student.studentId != studentId)
     console.log(studentsNotThisStudent)
 
+    if(email == '' || floor == '' || room == '' || faculty == ''){
+      alert("Podatci su prazni")
+      return
+    }
+
     //unique jmbag
     if (studentsNotThisStudent.filter(student => student.jmbag == jmbag).length > 0) {
       alert('Jmbag not unique')
