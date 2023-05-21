@@ -133,23 +133,26 @@ export async function PUT(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-  console.log(request)
-  // const res = await request.json()
-  // let { studentId, userId } = res
-  //
-  // await prisma.students.delete(
-  //   {
-  //     where: {
-  //       studentId: parseInt(studentId),
-  //     },
-  //   },
-  // )
-  //
-  // await prisma.users.delete(
-  //   {
-  //     where: {
-  //       userId: parseInt(userId),
-  //     },
-  //   },
-  // )
+  const { searchParams } = new URL(request.url)
+  // console.log(request.url)
+  const studentId = searchParams.get('studentId') + ''
+  const userId = searchParams.get('userId') + ''
+
+  await prisma.students.delete(
+    {
+      where: {
+        studentId: parseInt(studentId),
+      },
+    },
+  )
+
+  await prisma.users.delete(
+    {
+      where: {
+        userId: parseInt(userId),
+      },
+    },
+  )
+
+  return NextResponse.json({ deleted: true })
 }

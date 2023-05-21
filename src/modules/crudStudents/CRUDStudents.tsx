@@ -29,8 +29,8 @@ export default async function CRUDStudents() {
             <th>JMBAG</th>
             <th>email</th>
             <th>Accomodation</th>
-            <th> </th>
-            <th> </th>
+            <th></th>
+            <th></th>
           </tr>
           </thead>
           <tbody>
@@ -46,13 +46,9 @@ export default async function CRUDStudents() {
                   <button onClick={e => {
                     const options = {
                       method: 'DELETE',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        userId: student.users.userId,
-                        studentId: student.studentId,
-                      }),
                     }
-                    fetch('http://localhost:3000/api/students', options)
+                    fetch(`http://localhost:3000/api/students?studentId=${student.studentId}&userId=${student.users.userId}`, options)
+                    window.location.reload()
                     console.log('deleted')
                   }}>delete
                   </button>
