@@ -28,3 +28,7 @@ Tests written using Jest and React testing library.
 ```bash
 $ yarn test
 ```
+
+## Component diagram
+
+![Component diagram](./dijagram%20komponenti.png)
