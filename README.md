@@ -1,5 +1,7 @@
 # INFSUS Projekt 2022./2023.
 
+[GitHub repository](https://github.com/jerzabek/infsus)
+
 ## Getting Started
 
 Database is within a Docker container. It is initialized with data from PGSQL dump generated in previous homework.
