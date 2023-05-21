@@ -97,7 +97,6 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   const res = await request.json()
   let { roomId, email, jmbag, faculty, userId, studentId } = res
-  console.log(res)
 
   const newUser = await prisma.users.update(
     {
@@ -134,7 +133,6 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   const { searchParams } = new URL(request.url)
-  // console.log(request.url)
   const studentId = searchParams.get('studentId') + ''
   const userId = searchParams.get('userId') + ''
 
